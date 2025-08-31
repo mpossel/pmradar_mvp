@@ -22,7 +22,7 @@ on:
 
 jobs:
   run-crawler:
-    runs-on: untu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
