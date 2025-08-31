@@ -94,7 +94,7 @@ def main():
 
         # Envia resultados para o Supabase, se configurado
     supabase_url = os.getenv("SUPABASE_URL")
-    supabase_key = os.getenv("SUPABASE_ANON_KEY")
+  supabase_key =   os.getenv("SUPABASE_ANON_KEY") or os.getenv("UPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE")
     if supabase_url and supabase_key:
         try:
             from src.supabase_client import upsert_job
@@ -117,7 +117,7 @@ def main():
                 except Exception as e:
                     logging.error(f"Falha ao inserir registro {entry.get('url')} no Supabase: {e}")
     else:
-        logging.warning("Supabase não configurado (SUPABASE_URL ou SUPABASE_ANON_KEY ausentes). Resultados não foram enviados.")
+        logging.warning("Supabase não configurado (SUPABASE_URL ou chave de acesso ausentes). Resultados não foram enviados.")
 
 if __name__ == "__main__":
     main()
