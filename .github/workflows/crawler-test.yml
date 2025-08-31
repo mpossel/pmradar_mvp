@@ -45,7 +45,11 @@ jobs:
           MAX_PAGES: ${{ github.event.inputs.max_pages }}
           NUM_THREADS: ${{ github.event.inputs.num_threads }}
           USER_AGENT: ${{ github.event.inputs.user_agent }}
-        run: |
+                  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+                SUPABASE_TABLE: ${{ secrets.SUPABASE_TABLE }}
+                SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+                SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+   
           python scripts/run_crawler.py
 
       - name: Upload artifact (results)
