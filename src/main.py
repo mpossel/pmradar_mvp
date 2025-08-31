@@ -60,3 +60,8 @@ if __name__ == "__main__":
         print("Uso: python -m pmradar_mvp.src.main <arquivo-de-urls>")
         sys.exit(1)
     main(sys.argv[1])
+
+
+print(f"Conectando à fonte: {url}")
+print(f"{len(oportunidades)} vagas encontradas")
+print(f"Primeira vaga: {oportunidades[0]}")
