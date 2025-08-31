@@ -1,4 +1,4 @@
-import os, json, logging
+eimport os, json, logging
 from pathlib import Path
 import sys
 # Ensure repository root is in sys.path for src import
@@ -94,7 +94,8 @@ def main():
 
         # Envia resultados para o Supabase, se configurado
     supabase_url = os.getenv("SUPABASE_URL")
-  supabase_key =   os.getenv("SUPABASE_ANON_KEY") or os.getenv("UPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE")
+      supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("UPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE")
+
     if supabase_url and supabase_key:
         try:
             from src.supabase_client import upsert_job
