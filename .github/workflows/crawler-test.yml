@@ -1,0 +1,55 @@
+name: Crawler Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      seeds:
+        description: "Lista de URLs separadas por vírgula"
+        required: false
+        default: "https://www.python.org/,https://www.djangoproject.com/"
+      max_pages:
+        description: "Total de páginas para visitar"
+        required: false
+        default: "20"
+      num_threads:
+        description: "Número de threads"
+        required: false
+        default: "4"
+      user_agent:
+        description: "User-Agent"
+        required: false
+        default: "PMRadarCrawler/0.1 (+https://founderspm.com.br)"
+
+jobs:
+  run-crawler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Garantir bs4/requests se faltar
+          pip install beautifulsoup4 requests
+
+      - name: Run crawler
+        env:
+          SEEDS: ${{ github.event.inputs.seeds }}
+          MAX_PAGES: ${{ github.event.inputs.max_pages }}
+          NUM_THREADS: ${{ github.event.inputs.num_threads }}
+          USER_AGENT: ${{ github.event.inputs.user_agent }}
+        run: |
+          python scripts/run_crawler.py
+
+      - name: Upload artifact (results)
+        uses: actions/upload-artifact@v4
+        with:
+          name: crawler_results
+          path: artifacts/crawler_results.json
