@@ -22,7 +22,7 @@ on:
 
 jobs:
   run-crawler:
-    runs-on: ubuntu-latest
+    runs-on: untu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
           MAX_PAGES: ${{ github.event.inputs.max_pages }}
           NUM_THREADS: ${{ github.event.inputs.num_threads }}
           USER_AGENT: ${{ github.event.inputs.user_agent }}
-                  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+            SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
                 SUPABASE_TABLE: ${{ secrets.SUPABASE_TABLE }}
                 SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
                 SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
