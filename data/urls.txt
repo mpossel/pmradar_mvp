@@ -1,0 +1,7 @@
+# Insira aqui uma URL por linha para os formulários ou páginas de vagas de Produto.
+# Linhas iniciadas com # são ignoradas.
+
+# Exemplos de formulários públicos:
+# https://docs.google.com/forms/d/e/1FAIpQLSeusForm1/viewform
+# https://tally.so/r/wxyz1234
+# https://yourcompany.typeform.com/to/abcd
