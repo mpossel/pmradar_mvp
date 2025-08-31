@@ -90,9 +90,13 @@ def main():
     print(f"✅ Resultados salvos em {out_dir / 'crawler_results.json'}")
     print(f"ℹ️  Seeds: {seeds} | max_pages={max_pages} | num_threads={num_threads} | user_agent={user_agent}")
 
-        # Envia resultados para o Supabase, se configurado
+    # Envia resultados para o Supabase, se configurado
     supabase_url = os.getenv("SUPABASE_URL")
-      supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("UPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE")
+    supabase_key = (
+        os.getenv("SUPABASE_ANON_KEY")
+        or os.getenv("UPABASE_ANON_KEY")
+        or os.getenv("SUPABASE_SERVICE_ROLE")
+    )
 
     if supabase_url and supabase_key:
         try:
