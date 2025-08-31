@@ -47,8 +47,8 @@ jobs:
           USER_AGENT: ${{ github.event.inputs.user_agent }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_TABLE: ${{ secrets.SUPABASE_TABLE }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          
         run: |
           python scripts/run_crawler.py
 
