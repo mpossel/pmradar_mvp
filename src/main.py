@@ -5,9 +5,10 @@ Uso:
   python -m pmradar_mvp.src.main <arquivo-de-urls>
 
 O arquivo de URLs deve conter uma URL por linha, podendo incluir
-comentários iniciados por `#`.  As vagas são coletadas e inseridas
+comentários iniciados por `#`. As vagas são coletadas e inseridas
 no Supabase na tabela configurada no `.env`.
 """
+
 import sys
 from pathlib import Path
 from datetime import datetime, timezone
@@ -43,31 +44,9 @@ def main(file_path: str) -> None:
     for url in tqdm(urls, desc="Processando links"):
         total += 1
         try:
-            data = scrape_url(url)
-            # Adiciona timestamp de coleta
-            data["scraped_at"] = datetime.now(timezone.utc).isoformat()
-            # Upsert no Supabase
-            upsert_job(data)
-            sucessos += 1
-        except Exception as exc:
-            print(f"Erro ao processar {url}: {exc}")
-            falhas += 1
-    print(f"Concluído. Total: {total}, Sucessos: {sucessos}, Falhas: {falhas}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Uso: python -m pmradar_mvp.src.main <arquivo-de-urls>")
-        sys.exit(1)
-    main(sys.argv[1])
-
-
-    for url in tqdm(urls, desc="Processando links"):
-        total += 1
-        try:
             print(f"\n🔍 Conectando à fonte: {url}")
             data = scrape_url(url)
-            
+
             if not data:
                 print("⚠️ Nenhum dado retornado.")
                 falhas += 1
@@ -75,12 +54,17 @@ if __name__ == "__main__":
 
             print(f"✅ Vaga encontrada: {data.get('title', 'sem título')}")
 
-            # Adiciona timestamp
             data["scraped_at"] = datetime.now(timezone.utc).isoformat()
-
-            # Upsert no Supabase
             upsert_job(data)
             sucessos += 1
         except Exception as exc:
             print(f"❌ Erro ao processar {url}: {exc}")
             falhas += 1
+    print(f"\n📊 Concluído. Total: {total}, Sucessos: {sucessos}, Falhas: {falhas}")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Uso: python -m pmradar_mvp.src.main <arquivo-de-urls>")
+        sys.exit(1)
+    main(sys.argv[1])
