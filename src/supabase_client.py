@@ -16,7 +16,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
+SUPA#BASE_KEY = o(
+    os.getenv("SUPABASE_ANON_KEY")
+    or os.getenv("UPABASE_ANON_KEY")
+    or os.getenv("SUPABASE_SERVICE_ROLE")
+)
 SUPABASE_TABLE = os.getenv("SUPABASE_TABLE", "job_postings")
 
 # Cabeçalhos básicos para requisições REST
