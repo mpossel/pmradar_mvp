@@ -62,6 +62,25 @@ if __name__ == "__main__":
     main(sys.argv[1])
 
 
-print(f"Conectando à fonte: {url}")
-print(f"{len(oportunidades)} vagas encontradas")
-print(f"Primeira vaga: {oportunidades[0]}")
+    for url in tqdm(urls, desc="Processando links"):
+        total += 1
+        try:
+            print(f"\n🔍 Conectando à fonte: {url}")
+            data = scrape_url(url)
+            
+            if not data:
+                print("⚠️ Nenhum dado retornado.")
+                falhas += 1
+                continue
+
+            print(f"✅ Vaga encontrada: {data.get('title', 'sem título')}")
+
+            # Adiciona timestamp
+            data["scraped_at"] = datetime.now(timezone.utc).isoformat()
+
+            # Upsert no Supabase
+            upsert_job(data)
+            sucessos += 1
+        except Exception as exc:
+            print(f"❌ Erro ao processar {url}: {exc}")
+            falhas += 1
