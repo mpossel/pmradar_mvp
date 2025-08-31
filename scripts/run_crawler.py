@@ -1,10 +1,9 @@
-emport os, json, logging
-from pathlib import Pathimport sys
+import os, json, logging
+from pathlib import Path
+import sys
 # Ensure repository root is in sys.path for src import
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from src.web_crawler import WebCrawler
-
-
 
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
