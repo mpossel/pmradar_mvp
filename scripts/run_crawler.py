@@ -92,5 +92,32 @@ def main():
     print(f"✅ Resultados salvos em {out_dir / 'crawler_results.json'}")
     print(f"ℹ️  Seeds: {seeds} | max_pages={max_pages} | num_threads={num_threads} | user_agent={user_agent}")
 
+        # Envia resultados para o Supabase, se configurado
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_ANON_KEY")
+    if supabase_url and supabase_key:
+        try:
+            from src.supabase_client import upsert_job
+        except Exception as e:
+            logging.error(f"Erro ao importar supabase_client: {e}")
+            upsert_job = None
+        if upsert_job:
+            import uuid, datetime
+            for entry in crawler.results:
+                record = {
+                    "id": str(uuid.uuid4()),
+                    "url": entry.get("url"),
+                    "json_ld": json.dumps(entry.get("json_ld", []), ensure_ascii=False),
+                    "microdata": json.dumps(entry.get("microdata", []), ensure_ascii=False),
+                    "scraped_at": datetime.datetime.utcnow().isoformat() + "Z"
+                }
+                try:
+                    upsert_job(record)
+                    logging.info(f"Registro inserido no Supabase: {entry.get('url')}")
+                except Exception as e:
+                    logging.error(f"Falha ao inserir registro {entry.get('url')} no Supabase: {e}")
+    else:
+        logging.warning("Supabase não configurado (SUPABASE_URL ou SUPABASE_ANON_KEY ausentes). Resultados não foram enviados.")
+
 if __name__ == "__main__":
     main()
